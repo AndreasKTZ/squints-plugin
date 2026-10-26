@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 "use strict";
 
 // ../src/agent/clients.ts
@@ -167,11 +166,11 @@ function listen(host, port, allow, onConnection) {
       response.end("Upgrade Required");
     });
     server2.on("upgrade", (request, stream) => {
-      const key = request.headers["sec-websocket-key"];
-      const isWebSocket = request.headers.upgrade?.toLowerCase() === "websocket" && request.headers["sec-websocket-version"] === "13" && typeof key === "string";
+      const nonce = request.headers["sec-websocket-key"];
+      const isWebSocket = request.headers.upgrade?.toLowerCase() === "websocket" && request.headers["sec-websocket-version"] === "13" && typeof nonce === "string";
       if (!isWebSocket) return refuse(stream, 400, "Bad Request");
       if (!allow(request.headers.origin)) return refuse(stream, 403, "Forbidden");
-      const accept = (0, import_node_crypto.createHash)("sha1").update(key + HANDSHAKE_GUID).digest("base64");
+      const accept = (0, import_node_crypto.createHash)("sha1").update(nonce + HANDSHAKE_GUID).digest("base64");
       stream.write(
         [
           "HTTP/1.1 101 Switching Protocols",
@@ -532,7 +531,7 @@ var McpServer = class {
     if (problem) return { isError: true, content: [{ type: "text", text: problem }] };
     const known = Object.keys(tool.inputSchema.properties ?? {});
     const clean = Object.fromEntries(
-      known.filter((key) => key in args).map((key) => [key, args[key]])
+      known.filter((name) => name in args).map((name) => [name, args[name]])
     );
     try {
       return await tool.run(clean);
@@ -557,12 +556,12 @@ function check(schema, value, path) {
         return fail("an object");
       }
       const record = value;
-      for (const key of schema.required ?? []) {
-        if (record[key] === void 0) return `${path}.${key} is required.`;
+      for (const name of schema.required ?? []) {
+        if (record[name] === void 0) return `${path}.${name} is required.`;
       }
-      for (const [key, child] of Object.entries(schema.properties ?? {})) {
-        if (record[key] === void 0) continue;
-        const problem = check(child, record[key], `${path}.${key}`);
+      for (const [name, child] of Object.entries(schema.properties ?? {})) {
+        if (record[name] === void 0) continue;
+        const problem = check(child, record[name], `${path}.${name}`);
         if (problem) return problem;
       }
       return null;
