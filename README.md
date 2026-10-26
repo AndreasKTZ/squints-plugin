@@ -32,3 +32,7 @@ Cursor, Codex, VS Code and other MCP clients can use the same server through npm
 ```
 npx -y squints-mcp
 ```
+
+## License
+
+MIT

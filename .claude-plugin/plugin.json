@@ -7,5 +7,6 @@
   },
   "homepage": "https://github.com/AndreasKTZ/squints-plugin",
   "repository": "https://github.com/AndreasKTZ/squints-plugin",
+  "license": "MIT",
   "keywords": ["squints", "browser", "design", "inspect", "css", "design-tokens", "mcp"]
 }
