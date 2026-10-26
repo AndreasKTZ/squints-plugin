@@ -207,16 +207,18 @@ var BridgeError = class extends Error {
   }
   code;
 };
-function originAllowed(origin) {
+function originAllowed(origin, allowed) {
   if (!origin) return false;
-  const extra = (process.env.SQUINTS_ALLOW_ORIGINS ?? "").split(",").map((value) => value.trim()).filter(Boolean);
-  if (extra.includes(origin)) return true;
+  if (allowed.origins.includes(origin)) return true;
   const match = /^chrome-extension:\/\/([a-p]{32})$/.exec(origin);
   if (!match) return false;
-  const ids = (process.env.SQUINTS_EXTENSION_ID ?? "").split(",").map((value) => value.trim()).filter(Boolean);
-  return match[1] === STORE_EXTENSION_ID || ids.includes(match[1]);
+  return match[1] === STORE_EXTENSION_ID || allowed.extensionIds.includes(match[1]);
 }
 var ExtensionLink = class {
+  constructor(allowed = { extensionIds: [], origins: [] }) {
+    this.allowed = allowed;
+  }
+  allowed;
   port = null;
   sockets = [];
   pending = /* @__PURE__ */ new Map();
@@ -228,7 +230,7 @@ var ExtensionLink = class {
         "127.0.0.1",
         port,
         (origin) => {
-          const ok = originAllowed(origin);
+          const ok = originAllowed(origin, this.allowed);
           if (!ok) log(`refused a connection from origin ${origin || "(none)"}`);
           return ok;
         },
@@ -614,7 +616,20 @@ var INSTRUCTIONS = `Squints is a browser extension the user has open on the page
 - When more than one element could be meant, call ask_about_element instead of guessing. Find real candidates first with get_page_outline or find_elements and pass their refs.
 - If an ask returns "expired" or "dismissed", stop calling Squints for it and ask the user in the conversation.
 - ${UNTRUSTED}`;
-var link = new ExtensionLink();
+function flags(name) {
+  const values = [];
+  const args = process.argv.slice(2);
+  for (let index = 0; index < args.length; index++) {
+    const arg = args[index];
+    if (arg === name && args[index + 1]) values.push(args[++index]);
+    else if (arg.startsWith(`${name}=`)) values.push(arg.slice(name.length + 1));
+  }
+  return values.flatMap((value) => value.split(",")).map((value) => value.trim()).filter(Boolean);
+}
+var link = new ExtensionLink({
+  extensionIds: flags("--extension-id"),
+  origins: flags("--allow-origin")
+});
 var asks = new Asks(link);
 var server = new McpServer({ name: "squints", version: VERSION }, INSTRUCTIONS);
 var text = (value) => ({
