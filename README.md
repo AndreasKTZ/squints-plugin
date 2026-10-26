@@ -25,6 +25,10 @@ Only pages you share. Local development sites (localhost, 127.0.0.1, `*.localhos
 
 To pause sharing, turn off **Share with agents** in Squints' Settings. To remove the plugin, run `/plugin uninstall squints@squints`.
 
+## Privacy
+
+Nothing is sent to Squints or anyone else, and nothing is stored. Read the full [privacy policy](https://squints.app/privacy).
+
 ## Other agents
 
 Cursor, Codex, VS Code and other MCP clients can use the same server through npm:

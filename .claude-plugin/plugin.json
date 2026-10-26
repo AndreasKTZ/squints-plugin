@@ -8,5 +8,6 @@
   "homepage": "https://github.com/AndreasKTZ/squints-plugin",
   "repository": "https://github.com/AndreasKTZ/squints-plugin",
   "license": "MIT",
+  "privacyPolicyUrl": "https://squints.app/privacy",
   "keywords": ["squints", "browser", "design", "inspect", "css", "design-tokens", "mcp"]
 }
