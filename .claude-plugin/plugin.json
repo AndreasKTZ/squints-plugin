@@ -1,0 +1,11 @@
+{
+  "name": "squints",
+  "version": "0.1.0",
+  "description": "Point at an element in the browser with Squints, and Claude knows exactly which one you mean: its selector, styles, design tokens and component.",
+  "author": {
+    "name": "Andreas Katzmann"
+  },
+  "homepage": "https://github.com/AndreasKTZ/squints-plugin",
+  "repository": "https://github.com/AndreasKTZ/squints-plugin",
+  "keywords": ["squints", "browser", "design", "inspect", "css", "design-tokens", "mcp"]
+}

@@ -1,0 +1,14 @@
+{
+  "name": "squints",
+  "owner": {
+    "name": "Andreas Katzmann"
+  },
+  "plugins": [
+    {
+      "name": "squints",
+      "source": "./",
+      "description": "Point at an element in the browser with Squints, and Claude knows exactly which one you mean.",
+      "version": "0.1.0"
+    }
+  ]
+}
