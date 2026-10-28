@@ -1,6 +1,6 @@
 ---
 name: squints
-description: Use Squints to know exactly which element on a web page the user means. Use when the user refers to something on the page they are building as "this", "that", "these", "here", "it" or "the selected element", says "squint" ("squint at this", "squint these"), or describes an element that could match more than one thing on the page.
+description: Use Squints to know exactly which element on a web page the user means. Use when the user refers to something on the page they are building as "this", "that", "these", "here", "it" or "the selected element", says "squint" ("squint at this", "squint these"), mentions notes, annotations or feedback they left on the page, or describes an element that could match more than one thing on the page.
 ---
 
 # Squints
@@ -26,6 +26,19 @@ If the description fits more than one element ("the card", "the button in the he
 5. On `expired` or `dismissed`, stop calling Squints for this and ask in the conversation instead. On `none`, ask them to describe it.
 
 Use `highlight` to show the user which element you mean, for example after a change.
+
+## Working through the user's notes
+
+The user can pin notes to elements with Squints' Annotate tool, like comments in Figma, on any page of their site. When they mention their notes, annotations, comments or feedback, or ask you to work through them:
+
+1. Call `get_annotations`. It returns the notes on every page of the site, grouped by page. For "my notes on the pricing page", pass `page: "/pricing"`; for just the open page, `scope: "page"`.
+2. Work page by page. Pin numbers are per page, so name the page with the number ("pricing, note 2").
+3. Notes on the open page come with the live context of their element. Notes on other pages come with a `snapshot` of it from when the note was written — selector, component, text, styles, tokens — which is enough to find the code without the page open.
+4. Make the change each note asks for, in the element's component, using the design tokens it already matches. A note with `sketch` is something the user drew over the page — often a rough wireframe of what they want built there, or an arrow to what should change — and comes with a picture of the page with their drawing on it. Build what the drawing shows, where it is drawn, in the style of what is around it; any words written on the drawing are part of the note.
+5. Call `resolve_annotation` with the note's `id` and a one-line `reply` saying what you did. The user sees the reply under the note, on whichever page it is.
+6. A note with `lost: true` has no element on the page any more: ask the user about it instead of guessing. Leave a note open if you could not do it, and say why.
+
+If `list_tabs` shows tabs from more than one site, the project is the one whose URL matches its dev server (check its dev port). Pass that `tab`, or ask the user.
 
 ## When Squints isn't connected
 

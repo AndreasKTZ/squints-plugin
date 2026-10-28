@@ -4,6 +4,7 @@ Point at an element in the browser with [Squints](https://chromewebstore.google.
 
 - **"Make this 24px."** Select an element with Squints' Inspect tool and say "this". Shift-click several and say "these".
 - **"Which card do you mean?"** When more than one element could fit, Claude asks you in the browser instead of guessing. Squints outlines each candidate on the page and you confirm one, or click the one you meant.
+- **"Work through my notes."** Leave notes on any page of your site with Squints' Annotate tool: click an element and write, or draw what you want over the page. Claude reads them, with a picture of each drawing, makes the changes and marks each note done with a reply.
 - **`/squint`** always uses your selection, e.g. `/squint make these cards the same height`.
 
 ## Install
@@ -21,7 +22,7 @@ You need the [Squints extension](https://chromewebstore.google.com/detail/aapcfe
 
 ## What Claude can see
 
-Only pages you share. Local development sites (localhost, 127.0.0.1, `*.localhost`, `*.test`) are shared automatically; any other site only after you turn it on in Squints' Settings. Everything stays on your machine: the plugin runs a small local server that only the Squints extension can connect to. No screenshots are sent.
+Only pages you share. Local development sites (localhost, 127.0.0.1, `*.localhost`, `*.test`) are shared automatically; any other site only after you turn it on in Squints' Settings. Everything stays on your machine: the plugin runs a small local server that only the Squints extension can connect to. Screenshots are sent only for notes you draw: a picture of the page as you saw it, with your drawing on it.
 
 To pause sharing, turn off **Share with agents** in Squints' Settings. To remove the plugin, run `/plugin uninstall squints@squints`.
 

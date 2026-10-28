@@ -1,6 +1,6 @@
 {
   "name": "squints",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Point at an element in the browser with Squints, and Claude knows exactly which one you mean: its selector, styles, design tokens and component.",
   "author": {
     "name": "Andreas Katzmann"
